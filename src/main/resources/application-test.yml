@@ -1,0 +1,17 @@
+
+# Arquivo yml dessa forma que é criado e configurado as variaveis
+spring:
+  datasource:  # conectando o datasource que é o banco
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: test
+    password:
+  h2:         # detro do pai que é o spring crio a variavel pro h2 e habilito o console e defino um endpoint de acesso
+    console:
+      enabled: true
+      path: /h2
+  jpa:  # configuro o jpa para que todas as auterações seram feitas automaticamente
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+
