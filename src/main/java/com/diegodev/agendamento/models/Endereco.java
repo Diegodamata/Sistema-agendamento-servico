@@ -1,5 +1,6 @@
 package com.diegodev.agendamento.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,7 +31,7 @@ public class Endereco {
     @NonNull
     private String cep;
 
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;

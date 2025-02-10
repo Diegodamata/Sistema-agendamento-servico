@@ -25,6 +25,9 @@ public class Usuario {
     private String nome;
 
     @NonNull
+    private String cpf;
+
+    @NonNull
     private String email;
 
     @NonNull
@@ -40,5 +43,8 @@ public class Usuario {
 
     @OneToMany(mappedBy = "usuario")
     private List<Endereco> enderecos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "usuario")
+    private List<Agendamento> agendamentos = new ArrayList<>();
 }
 

@@ -4,23 +4,24 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "telefones")
+@Table(name = "agendamentos")
 @Getter
 @Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
 @EqualsAndHashCode
-public class Telefone {
+public class Agendamento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @NonNull
-    private String numero;
+    private LocalDateTime dataAgendamento;
 
     @JsonIgnore
     @ManyToOne
