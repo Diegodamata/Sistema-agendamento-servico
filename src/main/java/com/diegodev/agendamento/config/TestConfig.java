@@ -72,6 +72,8 @@ public class TestConfig implements CommandLineRunner {
         var agendamentoItem3 = new AgendamentoItem(agendamento2, servico3, 1, 500.0);
         var agendamentoItem4 = new AgendamentoItem(agendamento3, servico3, 1, 500.0);
 
+
+
         agendamentoItemRepository.saveAll(Arrays.asList(agendamentoItem1, agendamentoItem2, agendamentoItem3, agendamentoItem4));
 
 

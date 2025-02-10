@@ -14,11 +14,11 @@ import java.util.*;
 @Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
-
 public class Agendamento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @EqualsAndHashCode.Include
     private UUID id;
 
     @NonNull
