@@ -1,38 +1,35 @@
 package com.diegodev.agendamento.models;
 
-import com.diegodev.agendamento.models.enums.StatusAgendamento;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Entity
-@Table(name = "agendamentos")
+@Table(name = "servicos")
 @Getter
 @Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
-
-public class Agendamento {
+public class Servico {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @NonNull
-    private LocalDateTime dataAgendamento;
-
+    private String nomeServico;
     @NonNull
-    @Column(name = "status")
-    private StatusAgendamento statusAgendamento;
+    private String tempo;
+    @NonNull
+    private Double precoBase;
+    @NonNull
+    private String imgUrl;
 
     @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "id_usuario")
-    private Usuario usuario;
-
-    @OneToMany(mappedBy = "id.agendamento")
+    @OneToMany(mappedBy = "id.servico")
     private Set<AgendamentoItem> items = new HashSet<>();
 }
+
+
