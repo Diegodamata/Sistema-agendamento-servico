@@ -10,16 +10,28 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 @EqualsAndHashCode
 public class Endereco {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
+    @NonNull
     private String cidade;
+
+    @NonNull
     private String rua;
+    @NonNull
     private Integer numero;
+    @NonNull
     private String complemento;
+    @NonNull
     private String cep;
+
+
+    @ManyToOne
+    @JoinColumn(name = "id_usuario")
+    private Usuario usuario;
 }
