@@ -2,6 +2,7 @@ package com.diegodev.agendamento.config;
 
 import com.diegodev.agendamento.models.*;
 import com.diegodev.agendamento.models.enums.StatusAgendamento;
+import com.diegodev.agendamento.models.enums.StatusServico;
 import com.diegodev.agendamento.models.enums.StatusUsuario;
 import com.diegodev.agendamento.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,9 +62,9 @@ public class TestConfig implements CommandLineRunner {
 
         agendamentoRepository.saveAll(Arrays.asList(agendamento1,agendamento2,agendamento3));
 
-        var servico1 = new Servico("Ar-condicionado", "2 horas", 300.0, "imagem");
-        var servico2 = new Servico("Máquina de lavar", "1 horas", 200.0, "imagem");
-        var servico3 = new Servico("Portão eletrico", "3 horas", 600.0, "imagem");
+        var servico1 = new Servico("Ar-condicionado", "2 horas", 300.0, "imagem", StatusServico.INSTALACAO);
+        var servico2 = new Servico("Máquina de lavar", "1 horas", 200.0, "imagem", StatusServico.MANUTENCAO);
+        var servico3 = new Servico("Portão eletrico", "3 horas", 600.0, "imagem", StatusServico.INSTALACAO);
 
         servicoRepository.saveAll(Arrays.asList(servico1,servico2,servico3));
 

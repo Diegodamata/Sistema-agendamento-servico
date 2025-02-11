@@ -7,8 +7,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
 
-import java.util.Objects;
-
 @Entity
 @Table(name = "tb_agendamento_servico")
 @NoArgsConstructor

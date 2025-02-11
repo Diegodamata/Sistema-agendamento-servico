@@ -1,6 +1,7 @@
 package com.diegodev.agendamento.models;
 
 import com.diegodev.agendamento.models.enums.StatusUsuario;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -44,6 +45,7 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario")
     private List<Endereco> enderecos = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "usuario")
     private List<Agendamento> agendamentos = new ArrayList<>();
 }

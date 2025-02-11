@@ -26,6 +26,7 @@ public class Agendamento {
 
     @NonNull
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private StatusAgendamento statusAgendamento;
 
     @JsonIgnore
