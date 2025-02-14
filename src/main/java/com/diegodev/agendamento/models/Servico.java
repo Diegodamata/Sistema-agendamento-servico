@@ -13,11 +13,11 @@ import java.util.*;
 @Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Servico {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @EqualsAndHashCode.Include
     private UUID id;
 
     @NonNull

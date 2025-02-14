@@ -1,13 +1,11 @@
 package com.diegodev.agendamento.models;
 
-import com.diegodev.agendamento.models.enums.StatusUsuario;
+import com.diegodev.agendamento.models.enums.StatusPapel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "usuarios")
@@ -15,7 +13,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "id")
 public class Usuario {
 
     @Id
@@ -34,10 +32,13 @@ public class Usuario {
     @NonNull
     private String senha;
 
-    @NonNull
-    @Column(name = "tipo_usuario")
-    @Enumerated(EnumType.STRING)
-    private StatusUsuario statusUsuario;
+    @OneToOne(mappedBy = "usuario", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) //cascade so para salvar e atualizar, assim evita de excluir um profissional e excluir o usuario junto
+    private ProfissionalInfo profissionalInfo;
+
+    @ManyToMany
+    @JoinTable(name = "papel_usuario", joinColumns = @JoinColumn(name = "usuario_id"),
+    inverseJoinColumns = @JoinColumn(name = "papel_id"))
+    private Set<Papel> papeis = new HashSet<>();
 
     @OneToMany(mappedBy = "usuario")
     private List<Telefone> telefones = new ArrayList<>();

@@ -3,13 +3,12 @@ package com.diegodev.agendamento.config;
 import com.diegodev.agendamento.models.*;
 import com.diegodev.agendamento.models.enums.StatusAgendamento;
 import com.diegodev.agendamento.models.enums.StatusServico;
-import com.diegodev.agendamento.models.enums.StatusUsuario;
+import com.diegodev.agendamento.models.enums.StatusPapel;
 import com.diegodev.agendamento.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
@@ -38,8 +37,8 @@ public class TestConfig implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
 
-        var usuario1 = new Usuario("Diego", "12345678910", "diego@diego.com", "1234", StatusUsuario.CLIENTE);
-        var usuario2 = new Usuario("Diego", "12345678910", "diego@diego.com", "1234", StatusUsuario.CLIENTE);
+        var usuario1 = new Usuario("Diego", "12345678910", "diego@diego.com", "1234");
+        var usuario2 = new Usuario("Diego", "12345678910", "diego@diego.com", "1234");
 
         usuarioRepository.saveAll(Arrays.asList(usuario1,usuario2));
 

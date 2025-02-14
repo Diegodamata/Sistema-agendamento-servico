@@ -2,7 +2,6 @@ package com.diegodev.agendamento.controllers;
 
 import com.diegodev.agendamento.models.Agendamento;
 import com.diegodev.agendamento.models.Usuario;
-import com.diegodev.agendamento.repositories.AgendamentoRepository;
 import com.diegodev.agendamento.repositories.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

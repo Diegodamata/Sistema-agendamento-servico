@@ -12,7 +12,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @RequiredArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "id")
 public class Telefone {
 
     @Id

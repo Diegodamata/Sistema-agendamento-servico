@@ -10,10 +10,10 @@ import lombok.*;
 @Entity
 @Table(name = "tb_agendamento_servico")
 @NoArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class AgendamentoItem {
 
     @EmbeddedId
-    @EqualsAndHashCode.Include
     private AgendamentoItemPK id = new AgendamentoItemPK();
 
     @Getter
