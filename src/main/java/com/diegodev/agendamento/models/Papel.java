@@ -1,6 +1,7 @@
 package com.diegodev.agendamento.models;
 
 import com.diegodev.agendamento.models.enums.StatusPapel;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,7 +10,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "tipo_usuario")
+@Table(name = "papeis")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -25,6 +26,7 @@ public class Papel {
     @Enumerated(EnumType.STRING)
     private StatusPapel statusPapel;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "papeis")
     private Set<Usuario> usuarios = new HashSet<>();
 }

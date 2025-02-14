@@ -1,7 +1,9 @@
 package com.diegodev.agendamento.models;
 
 import com.diegodev.agendamento.models.enums.StatusPapel;
+import com.diegodev.agendamento.models.enums.StatusUsuario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,6 +16,7 @@ import java.util.*;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @EqualsAndHashCode(of = "id")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Usuario {
 
     @Id
@@ -32,22 +35,26 @@ public class Usuario {
     @NonNull
     private String senha;
 
-    @OneToOne(mappedBy = "usuario", cascade = {CascadeType.PERSIST, CascadeType.MERGE}) //cascade so para salvar e atualizar, assim evita de excluir um profissional e excluir o usuario junto
+    @NonNull
+    @Enumerated(EnumType.STRING)
+    private StatusUsuario status;
+
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
     private ProfissionalInfo profissionalInfo;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "papel_usuario", joinColumns = @JoinColumn(name = "usuario_id"),
     inverseJoinColumns = @JoinColumn(name = "papel_id"))
     private Set<Papel> papeis = new HashSet<>();
 
     @OneToMany(mappedBy = "usuario")
-    private List<Telefone> telefones = new ArrayList<>();
+    private Set<Telefone> telefones = new HashSet<>();
 
     @OneToMany(mappedBy = "usuario")
-    private List<Endereco> enderecos = new ArrayList<>();
+    private Set<Endereco> enderecos = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "usuario")
-    private List<Agendamento> agendamentos = new ArrayList<>();
+    private Set<Agendamento> agendamentos = new HashSet<>();
 }
 

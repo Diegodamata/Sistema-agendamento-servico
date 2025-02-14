@@ -4,6 +4,7 @@ import com.diegodev.agendamento.models.*;
 import com.diegodev.agendamento.models.enums.StatusAgendamento;
 import com.diegodev.agendamento.models.enums.StatusServico;
 import com.diegodev.agendamento.models.enums.StatusPapel;
+import com.diegodev.agendamento.models.enums.StatusUsuario;
 import com.diegodev.agendamento.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -17,6 +18,12 @@ public class TestConfig implements CommandLineRunner {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private PapelRepository papelRepository;
+
+    @Autowired
+    private ProfissionalRepository profissionalRepository;
 
     @Autowired
     private TelefoneRepository telefoneRepository;
@@ -37,11 +44,28 @@ public class TestConfig implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
 
-        var usuario1 = new Usuario("Diego", "12345678910", "diego@diego.com", "1234");
-        var usuario2 = new Usuario("Diego", "12345678910", "diego@diego.com", "1234");
+        var usuario1 = new Usuario("Diego", "12345678910", "diego@diego.com", "1234", StatusUsuario.ATIVO);
+        var usuario2 = new Usuario("Bruno", "12345678910", "test@test.com", "1234", StatusUsuario.ATIVO);
+        var usuario3 = new Usuario("Diogo", "12345678910", "diogo@gmail.com", "1234", StatusUsuario.ATIVO);
 
-        usuarioRepository.saveAll(Arrays.asList(usuario1,usuario2));
+        var papel1 = new Papel(StatusPapel.CLIENTE);
+        var papel2 = new Papel(StatusPapel.FUNCIONARIO);
+        var papel3 = new Papel(StatusPapel.DONO);
 
+        usuario1.getPapeis().add(papel1);
+        usuario2.getPapeis().add(papel2);
+        usuario3.getPapeis().add(papel3);
+        usuario3.getPapeis().add(papel2);
+
+        var pro1 = new ProfissionalInfo(usuario2, "Central Atendimento");
+        var pro2 = new ProfissionalInfo(usuario3, "Central Atendimento");
+
+        usuario2.setProfissionalInfo(pro1);
+        usuario3.setProfissionalInfo(pro2);
+
+        usuarioRepository.saveAll(Arrays.asList(usuario1,usuario2,usuario3));
+
+//
         var telefone = new Telefone("123456787");
         var endereco = new Endereco("Clementina", "Francisco Garcia", 765, "Casa", "16250000");
 
@@ -58,6 +82,11 @@ public class TestConfig implements CommandLineRunner {
         agendamento1.setUsuario(usuario1);
         agendamento2.setUsuario(usuario2);
         agendamento3.setUsuario(usuario1);
+
+        agendamento1.getProfissionais().add(pro2);
+        agendamento1.getProfissionais().add(pro1);
+        agendamento2.getProfissionais().add(pro2);
+        agendamento3.getProfissionais().add(pro2);
 
         agendamentoRepository.saveAll(Arrays.asList(agendamento1,agendamento2,agendamento3));
 

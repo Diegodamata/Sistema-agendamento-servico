@@ -34,6 +34,11 @@ public class Agendamento {
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
+    @ManyToMany
+    @JoinTable(name = "profissional_agendamento", joinColumns = @JoinColumn(name = "agendamento_id"),
+    inverseJoinColumns = @JoinColumn(name = "profissional_id"))
+    private Set<ProfissionalInfo> profissionais = new HashSet<>();
+
     @OneToMany(mappedBy = "id.agendamento")
     private Set<AgendamentoItem> items = new HashSet<>();
 }
