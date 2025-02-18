@@ -11,27 +11,27 @@ import java.util.*;
 @Table(name = "servicos")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
-@RequiredArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Servico {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @NonNull
     private String nomeServico;
-    @NonNull
+
     private String tempo;
-    @NonNull
+
     private Double precoBase;
-    @NonNull
+
     private String imgUrl;
 
-    @NonNull
     private StatusServico statusServico;
 
+    @Builder.Default
     @JsonIgnore
     @OneToMany(mappedBy = "id.servico")
     private Set<AgendamentoItem> items = new HashSet<>();

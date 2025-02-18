@@ -5,20 +5,22 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "telefones")
+@Table(name = "avaliacoes")
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Telefone {
+public class Avaliacao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String numero;
+    private Byte nota;
+
+    private String mensagem;
 
     @JsonIgnore
     @ManyToOne

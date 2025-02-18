@@ -5,32 +5,31 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(name = "profissionais")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
-@RequiredArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProfissionalInfo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @NonNull
     @JsonIgnore
     @OneToOne
     @JoinColumn(name = "usuario_id")
     @MapsId //tanto o profissional quanto o usuario possuai o mesmo id
     private Usuario usuario;
 
-    @NonNull
     private String nomeEmpresa;
 
 //    private String cargo;
@@ -39,7 +38,8 @@ public class ProfissionalInfo {
 //
 //    private String cnpj;
 
+    @Builder.Default
     @JsonIgnore
     @ManyToMany(mappedBy = "profissionais")
-    private Set<Agendamento> agendamentos = new HashSet<>();
+    private List<Agendamento> agendamentos = new ArrayList<>();
 }

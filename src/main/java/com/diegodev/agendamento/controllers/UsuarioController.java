@@ -11,11 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
 @RestController
-@RequestMapping(value = "/usuarios")
+@RequestMapping("/usuarios")
 public class UsuarioController {
 
     @Autowired
@@ -27,12 +25,12 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> buscarUsuarioPorId(@PathVariable UUID id){
+    public ResponseEntity<Usuario> buscarUsuarioPorId(@PathVariable Long id){
         return ResponseEntity.ok().body(repository.findById(id).orElse(null));
     }
 
     @GetMapping("/{id}/agendamentos")
-    public ResponseEntity<Set<Agendamento>> buscarAgendamentos(@PathVariable UUID id){
+    public ResponseEntity<List<Agendamento>> buscarAgendamentos(@PathVariable Long id){
         return repository.findById(id)
                 .map(usuario -> ResponseEntity.ok(usuario.getAgendamentos()))
                 .orElse(null);
