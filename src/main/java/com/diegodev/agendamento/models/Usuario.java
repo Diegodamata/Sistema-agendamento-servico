@@ -16,6 +16,7 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Usuario {
 
     @Id
@@ -56,7 +57,8 @@ public class Usuario {
     private List<Agendamento> agendamentos = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany
+    @JsonIgnore
+    @OneToMany(mappedBy = "usuario")
     private Set<Avaliacao> avaliacoes = new HashSet<>();
 }
 
