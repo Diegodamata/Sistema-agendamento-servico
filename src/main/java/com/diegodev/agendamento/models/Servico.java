@@ -35,6 +35,11 @@ public class Servico {
     @JsonIgnore
     @OneToMany(mappedBy = "id.servico")
     private Set<AgendamentoItem> items = new HashSet<>();
+
+    @Builder.Default
+    @JsonIgnore
+    @OneToMany(mappedBy = "servico")
+    private List<Historico> historicos = new ArrayList<>();
 }
 
 

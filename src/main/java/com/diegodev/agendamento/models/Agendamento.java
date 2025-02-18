@@ -46,4 +46,9 @@ public class Agendamento {
     @Builder.Default
     @OneToMany(mappedBy = "agendamento")
     private Set<Avaliacao> avaliacoes = new HashSet<>();
+
+    @Builder.Default
+    @JsonIgnore
+    @OneToMany(mappedBy = "agendamento")
+    private List<Historico> historicos = new ArrayList<>();
 }

@@ -43,6 +43,9 @@ public class TestConfig implements CommandLineRunner {
     @Autowired
     private AvaliacaoRepository avaliacaoRepository;
 
+    @Autowired
+    private HistoricoRepository historicoRepository;
+
     @Override
     public void run(String... args) throws Exception {
 
@@ -78,9 +81,6 @@ public class TestConfig implements CommandLineRunner {
         usuario1.getAvaliacoes().add(av2);
 
         usuarioRepository.save(usuario1);
-
-
-
 //
         var telefone = Telefone.builder().numero("123456787").build();
         var endereco = Endereco.builder().cidade("Clementina").rua("Francisco Garcia").numero(765).complemento("Casa").cep("16250000").build();
@@ -127,6 +127,10 @@ public class TestConfig implements CommandLineRunner {
 
 
         agendamentoItemRepository.saveAll(Arrays.asList(agendamentoItem1, agendamentoItem2, agendamentoItem3, agendamentoItem4));
+
+        var historico = Historico.builder().usuario(usuario1).profissional(pro2).agendamento(agendamento1).avaliacao(av1).servico(servico1).build();
+
+        historicoRepository.save(historico);
 
 
     }

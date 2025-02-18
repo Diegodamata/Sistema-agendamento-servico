@@ -42,4 +42,9 @@ public class ProfissionalInfo {
     @JsonIgnore
     @ManyToMany(mappedBy = "profissionais")
     private List<Agendamento> agendamentos = new ArrayList<>();
+
+    @Builder.Default
+    @JsonIgnore
+    @OneToMany(mappedBy = "profissional")
+    private List<Historico> historicos = new ArrayList<>();
 }

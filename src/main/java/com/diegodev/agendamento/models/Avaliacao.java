@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "avaliacoes")
 @Getter
@@ -31,4 +34,9 @@ public class Avaliacao {
     @ManyToOne
     @JoinColumn(name = "id_agendamento")
     private Agendamento agendamento;
+
+    @Builder.Default
+    @JsonIgnore
+    @OneToMany(mappedBy = "avaliacao")
+    private List<Historico> historicos = new ArrayList<>();
 }

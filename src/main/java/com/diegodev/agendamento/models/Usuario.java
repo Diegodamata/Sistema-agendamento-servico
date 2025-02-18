@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.LastModifiedDate;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Entity
@@ -60,5 +62,17 @@ public class Usuario {
     @JsonIgnore
     @OneToMany(mappedBy = "usuario")
     private Set<Avaliacao> avaliacoes = new HashSet<>();
+
+    @Builder.Default
+    @JsonIgnore
+    @OneToMany(mappedBy = "usuario")
+    private List<Historico> historicos = new ArrayList<>();
+
+//    Dados para auditoria
+//    private LocalDateTime dataCadastro;
+//
+//    private LocalDateTime dataAtualizacao;
+//
+//    private Long idUsuario; (Para o security)
 }
 
