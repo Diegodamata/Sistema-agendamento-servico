@@ -66,6 +66,7 @@ public class TestConfig implements CommandLineRunner {
         usuario2.setProfissionalInfo(pro1);
         usuario3.setProfissionalInfo(pro2);
 
+
         usuarioRepository.saveAll(Arrays.asList(usuario1, usuario2, usuario3));
 
         var av1 = Avaliacao.builder().nota((byte) 3).mensagem("Deveria ser melhor").usuario(usuario1).build();
@@ -73,8 +74,8 @@ public class TestConfig implements CommandLineRunner {
 
         avaliacaoRepository.saveAll(Arrays.asList(av1, av2));
 
-        usuario1.getAvaliacaos().add(av1);
-        usuario1.getAvaliacaos().add(av2);
+        usuario1.getAvaliacoes().add(av1);
+        usuario1.getAvaliacoes().add(av2);
 
         usuarioRepository.save(usuario1);
 
@@ -103,7 +104,15 @@ public class TestConfig implements CommandLineRunner {
         agendamento2.getProfissionais().add(pro2);
         agendamento3.getProfissionais().add(pro2);
 
+        agendamento1.getAvaliacoes().add(av1);
+        agendamento1.getAvaliacoes().add(av2);
+
         agendamentoRepository.saveAll(Arrays.asList(agendamento1, agendamento2, agendamento3));
+
+        av1.setAgendamento(agendamento1);
+        av2.setAgendamento(agendamento1);
+
+        avaliacaoRepository.saveAll(Arrays.asList(av1, av2));
 
         var servico1 = Servico.builder().nomeServico("Ar-condicionado").tempo("2 horas").precoBase(300.0).imgUrl("imagem").statusServico(StatusServico.INSTALACAO).build();
         var servico2 = Servico.builder().nomeServico("Máquina de lavar").tempo("1 horas").precoBase(200.0).imgUrl("imagem").statusServico(StatusServico.MANUTENCAO).build();

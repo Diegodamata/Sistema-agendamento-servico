@@ -42,4 +42,8 @@ public class Agendamento {
     @Builder.Default
     @OneToMany(mappedBy = "id.agendamento")
     private Set<AgendamentoItem> items = new HashSet<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "agendamento")
+    private Set<Avaliacao> avaliacoes = new HashSet<>();
 }
