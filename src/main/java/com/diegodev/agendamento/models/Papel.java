@@ -7,25 +7,25 @@ import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Table(name = "papeis")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
-@RequiredArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Papel {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @NonNull
     @Enumerated(EnumType.STRING)
     private StatusPapel statusPapel;
 
+    @Builder.Default
     @JsonIgnore
     @ManyToMany(mappedBy = "papeis")
     private Set<Usuario> usuarios = new HashSet<>();

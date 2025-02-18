@@ -12,19 +12,18 @@ import java.util.*;
 @Table(name = "agendamentos")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
-@RequiredArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Agendamento {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @NonNull
     private LocalDateTime dataAgendamento;
 
-    @NonNull
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private StatusAgendamento statusAgendamento;
@@ -34,11 +33,13 @@ public class Agendamento {
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
+    @Builder.Default
     @ManyToMany
     @JoinTable(name = "profissional_agendamento", joinColumns = @JoinColumn(name = "agendamento_id"),
     inverseJoinColumns = @JoinColumn(name = "profissional_id"))
     private Set<ProfissionalInfo> profissionais = new HashSet<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "id.agendamento")
     private Set<AgendamentoItem> items = new HashSet<>();
 }

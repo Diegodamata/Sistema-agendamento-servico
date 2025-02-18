@@ -1,6 +1,5 @@
 package com.diegodev.agendamento.models;
 
-import com.diegodev.agendamento.models.enums.StatusPapel;
 import com.diegodev.agendamento.models.enums.StatusUsuario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -13,48 +12,51 @@ import java.util.*;
 @Table(name = "usuarios")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
-@RequiredArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Usuario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @NonNull
     private String nome;
 
-    @NonNull
     private String cpf;
 
-    @NonNull
     private String email;
 
-    @NonNull
     private String senha;
 
-    @NonNull
     @Enumerated(EnumType.STRING)
     private StatusUsuario status;
 
     @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
     private ProfissionalInfo profissionalInfo;
 
+    @Builder.Default //com isso o lombok informa para usar o valor padrão, quando não é iniciado um valor, assim evita o nullPointerException
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "papel_usuario", joinColumns = @JoinColumn(name = "usuario_id"),
     inverseJoinColumns = @JoinColumn(name = "papel_id"))
     private Set<Papel> papeis = new HashSet<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "usuario")
     private Set<Telefone> telefones = new HashSet<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "usuario")
     private Set<Endereco> enderecos = new HashSet<>();
 
+    @Builder.Default
     @JsonIgnore
     @OneToMany(mappedBy = "usuario")
-    private Set<Agendamento> agendamentos = new HashSet<>();
+    private List<Agendamento> agendamentos = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany
+    private Set<Avaliacao> avaliacoes = new HashSet<>();
 }
 

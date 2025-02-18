@@ -19,7 +19,6 @@ public class AgendamentoItem {
     @Getter
     @Setter
     private Integer quantidade;
-
     @Getter
     @Setter
     private Double precoBase;
@@ -36,7 +35,7 @@ public class AgendamentoItem {
         return id.getAgendamento();
     }
 
-    public void setAgendamento(Agendamento agendamento){
+    private void setAgendamento(Agendamento agendamento){
         id.setAgendamento(agendamento);
     }
 
@@ -44,7 +43,7 @@ public class AgendamentoItem {
         return id.getServico();
     }
 
-    public void setServico(Servico servico){
+    private void setServico(Servico servico){
         id.setServico(servico);
     }
 

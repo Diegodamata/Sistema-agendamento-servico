@@ -4,32 +4,33 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.UUID;
-
 @Entity
 @Table(name = "enderecos")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
-@RequiredArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Endereco {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @NonNull
+    private String cep;
+
+    private Integer numero;
+
+    private String complemento;
+
     private String cidade;
 
-    @NonNull
+//    private String bairro;
+
     private String rua;
-    @NonNull
-    private Integer numero;
-    @NonNull
-    private String complemento;
-    @NonNull
-    private String cep;
+
+//    private String estado;
 
     @JsonIgnore
     @ManyToOne
