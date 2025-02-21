@@ -6,7 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "agendamentos")
@@ -37,15 +38,15 @@ public class Agendamento {
     @ManyToMany
     @JoinTable(name = "profissional_agendamento", joinColumns = @JoinColumn(name = "agendamento_id"),
     inverseJoinColumns = @JoinColumn(name = "profissional_id"))
-    private Set<ProfissionalInfo> profissionais = new HashSet<>();
+    private List<ProfissionalInfo> profissionais = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "id.agendamento")
-    private Set<AgendamentoItem> items = new HashSet<>();
+    private List<AgendamentoItem> items = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "agendamento")
-    private Set<Avaliacao> avaliacoes = new HashSet<>();
+    private List<Avaliacao> avaliacoes = new ArrayList<>();
 
     @Builder.Default
     @JsonIgnore

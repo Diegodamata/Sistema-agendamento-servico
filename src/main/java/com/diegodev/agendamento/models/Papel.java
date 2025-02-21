@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "papeis")
@@ -28,5 +28,5 @@ public class Papel {
     @Builder.Default
     @JsonIgnore
     @ManyToMany(mappedBy = "papeis")
-    private Set<Usuario> usuarios = new HashSet<>();
+    private List<Usuario> usuarios = new ArrayList<>();
 }

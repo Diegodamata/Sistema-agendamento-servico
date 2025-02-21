@@ -5,7 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "servicos")
@@ -34,7 +35,7 @@ public class Servico {
     @Builder.Default
     @JsonIgnore
     @OneToMany(mappedBy = "id.servico")
-    private Set<AgendamentoItem> items = new HashSet<>();
+    private List<AgendamentoItem> items = new ArrayList<>();
 
     @Builder.Default
     @JsonIgnore
