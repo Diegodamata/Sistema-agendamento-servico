@@ -1,6 +1,6 @@
 package com.diegodev.agendamento.models.enums;
 
-public enum StatusPapel {
+public enum PapelUsuario {
     CLIENTE,
     FUNCIONARIO,
     DONO
