@@ -1,4 +1,6 @@
 package com.diegodev.agendamento.controllers.dto.usuario.responses;
 
-public record UsuarioDetalheDTO() {
+public record UsuarioDetalheDTO(
+        String nome
+) {
 }

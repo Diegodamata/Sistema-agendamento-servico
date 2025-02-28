@@ -1,7 +1,6 @@
 package com.diegodev.agendamento.models;
 
 import com.diegodev.agendamento.models.enums.StatusUsuario;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,9 +9,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "usuarios")
@@ -32,8 +29,6 @@ public class Usuario implements Serializable {
 
     private String nome;
 
-    private String cpf;
-
     private String email;
 
     private String senha;
@@ -41,44 +36,44 @@ public class Usuario implements Serializable {
     @Enumerated(EnumType.STRING)
     private StatusUsuario status;
 
-    @OneToOne(mappedBy = "usuario")
-    private ProfissionalInfo profissionalInfo;
-
-    @Builder.Default //com isso o lombok informa para usar o valor padrão, quando não é iniciado um valor, assim evita o nullPointerException
-    @ManyToMany
-    @JoinTable(name = "papel_usuario", joinColumns = @JoinColumn(name = "usuario_id"),
-    inverseJoinColumns = @JoinColumn(name = "papel_id"))
-    private List<Papel> papeis = new ArrayList<>();
-
-    @Builder.Default
-    @OneToMany(mappedBy = "usuario")
-    private List<Telefone> telefones = new ArrayList<>();
-
-    @Builder.Default
-    @OneToMany(mappedBy = "usuario")
-    private List<Endereco> enderecos = new ArrayList<>();
-
-    @Builder.Default
-    @JsonIgnore
-    @OneToMany(mappedBy = "usuario")
-    private List<Agendamento> agendamentos = new ArrayList<>();
-
-    @Builder.Default
-    @JsonIgnore
-    @OneToMany(mappedBy = "usuario")
-    private List<Avaliacao> avaliacoes = new ArrayList<>();
-
-    @Builder.Default
-    @JsonIgnore
-    @OneToMany(mappedBy = "usuario")
-    private List<Historico> historicos = new ArrayList<>();
+//    @OneToOne(mappedBy = "usuario")
+//    private ProfissionalInfo profissionalInfo;
+//
+//    @Builder.Default //com isso o lombok informa para usar o valor padrão, quando não é iniciado um valor, assim evita o nullPointerException
+//    @ManyToMany
+//    @JoinTable(name = "papel_usuario", joinColumns = @JoinColumn(name = "usuario_id"),
+//    inverseJoinColumns = @JoinColumn(name = "papel_id"))
+//    private List<Papel> papeis = new ArrayList<>();
+//
+//    @Builder.Default
+//    @OneToMany(mappedBy = "usuario")
+//    private List<Telefone> telefones = new ArrayList<>();
+//
+//    @Builder.Default
+//    @OneToMany(mappedBy = "usuario")
+//    private List<Endereco> enderecos = new ArrayList<>();
+//
+//    @Builder.Default
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "usuario")
+//    private List<Agendamento> agendamentos = new ArrayList<>();
+//
+//    @Builder.Default
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "usuario")
+//    private List<Avaliacao> avaliacoes = new ArrayList<>();
+//
+//    @Builder.Default
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "usuario")
+//    private List<Historico> historicos = new ArrayList<>();
 
 //    Dados para auditoria
     @CreatedDate
-    private LocalDateTime dataCadastro;
+    private LocalDate dataCadastro;
 
     @LastModifiedDate
-    private LocalDateTime dataAtualizacao;
+    private LocalDate dataAtualizacao;
 //
 //    private Long idUsuario; (Para o security)
 }
