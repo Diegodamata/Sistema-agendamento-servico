@@ -1,8 +1,13 @@
 package com.diegodev.agendamento.controllers;
 
+import com.diegodev.agendamento.controllers.dto.CadastroUsuarioDTO;
 import com.diegodev.agendamento.controllers.dto.usuario.requests.UsuarioRequestDTO;
 import com.diegodev.agendamento.controllers.dto.usuario.responses.UsuarioDetalheDTO;
 import com.diegodev.agendamento.controllers.dto.usuario.responses.UsuarioResponseDTO;
+import com.diegodev.agendamento.controllers.mappers.endereco.EnderecoMapper;
+import com.diegodev.agendamento.controllers.mappers.papel.PapelMapper;
+import com.diegodev.agendamento.controllers.mappers.prossifional.ProfissionalMapper;
+import com.diegodev.agendamento.controllers.mappers.telefone.TelefoneMapper;
 import com.diegodev.agendamento.controllers.mappers.usuario.UsuarioMapper;
 import com.diegodev.agendamento.models.Usuario;
 import com.diegodev.agendamento.services.UsuarioService;
@@ -20,11 +25,20 @@ public class UsuarioController implements GenericController { //interface generi
 
     private final UsuarioService usuarioService;
     private final UsuarioMapper usuarioMapper;
+    private final PapelMapper papelMapper;
+    private final ProfissionalMapper proMapper;
+    private final TelefoneMapper teleMapper;
+    private final EnderecoMapper endMapper;
 
     @PostMapping
-    public ResponseEntity<UsuarioResponseDTO> criarUsuario(@RequestBody UsuarioRequestDTO dto){
+    public ResponseEntity<UsuarioResponseDTO> criarUsuario(@RequestBody CadastroUsuarioDTO dto){
 
-        Usuario usuarioCriado = usuarioService.criarUsuario(usuarioMapper.dtoRequestParaUsuario(dto));
+        Usuario usuarioCriado = usuarioService.criarUsuario(
+                usuarioMapper.dtoRequestParaUsuario(dto.usuario()),
+                papelMapper.listDtoParaListPapel(dto.papeis()),
+                proMapper.dtoParaProfissional(dto.profissional()),
+                teleMapper.listDtoParaListTelefone(dto.telefones()),
+                endMapper.listDtoParaListEndereco(dto.enderecos()));
 
         URI uri = gerarHeaderLocation(usuarioCriado.getId());
 
@@ -32,13 +46,13 @@ public class UsuarioController implements GenericController { //interface generi
     }
 
     @GetMapping
-    public ResponseEntity<Page<UsuarioDetalheDTO>> obterUsuario(
+    public ResponseEntity<Page<Usuario>> obterUsuario(
         @RequestParam(value = "nome", required = false) String nome,
         @RequestParam(defaultValue = "0") int pagina,
         @RequestParam(defaultValue = "10") int tamanho
     ){
         Page<Usuario> usuariosPage = usuarioService.obterUsuario(nome, pagina, tamanho);
-        return ResponseEntity.ok(usuariosPage.map(usuarioMapper::usuarioParaDetalheDTO));
+        return ResponseEntity.ok(usuariosPage);
     }
 
     @GetMapping("/{id}")

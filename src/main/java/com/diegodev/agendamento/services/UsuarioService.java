@@ -18,10 +18,39 @@ import java.util.Optional;
 public class UsuarioService {
 
     private final UsuarioRepository repository;
+    private final ProfissionalService proService;
+    private final TelefoneService teleService;
+    private final EnderecoService endService;
 
-    public Usuario criarUsuario(final Usuario usuario){
+    public Usuario criarUsuario(
+            final Usuario usuario,
+            final List<Papel> papeis,
+            final ProfissionalInfo profissional,
+            final List<Telefone> telefones,
+            final List<Endereco> enderecos){
 
         usuario.setStatus(StatusUsuario.ATIVO);
+        repository.save(usuario);
+
+        if(papeis != null){
+            usuario.getPapeis().addAll(papeis);
+        }
+
+        if(profissional != null){
+            profissional.setUsuario(usuario);
+            usuario.setProfissionalInfo(profissional);
+        }
+
+        if(telefones != null){
+            telefones.forEach(tel -> tel.setUsuario(usuario));
+            usuario.getTelefones().addAll(telefones);
+        }
+
+        if(enderecos != null){
+            enderecos.forEach(end -> end.setUsuario(usuario));
+            usuario.getEnderecos().addAll(enderecos);
+        }
+
         return repository.save(usuario);
     }
 

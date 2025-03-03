@@ -22,13 +22,13 @@ public class Endereco {
 
     private Integer numero;
 
-    private String complemento;
+//    private String complemento;
 
     private String cidade;
 
 //    private String bairro;
 
-    private String rua;
+//    private String rua;
 
 //    private String estado;
 
