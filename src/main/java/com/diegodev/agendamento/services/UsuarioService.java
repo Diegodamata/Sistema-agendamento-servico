@@ -18,9 +18,6 @@ import java.util.Optional;
 public class UsuarioService {
 
     private final UsuarioRepository repository;
-    private final ProfissionalService proService;
-    private final TelefoneService teleService;
-    private final EnderecoService endService;
 
     public Usuario criarUsuario(
             final Usuario usuario,
