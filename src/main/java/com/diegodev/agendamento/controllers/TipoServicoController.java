@@ -4,10 +4,9 @@ import com.diegodev.agendamento.models.TipoServico;
 import com.diegodev.agendamento.services.TipoServicoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/tipo-servicos")
@@ -19,5 +18,10 @@ public class TipoServicoController {
     @PostMapping
     public ResponseEntity<TipoServico> criarTipoServico(@RequestBody TipoServico tipoServico){
         return ResponseEntity.ok(tipoServicoService.criarTipoServico(tipoServico));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<TipoServico>> obterTipoServico(){
+        return ResponseEntity.ok(tipoServicoService.obterTipoServico());
     }
 }

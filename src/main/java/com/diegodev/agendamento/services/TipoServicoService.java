@@ -5,6 +5,8 @@ import com.diegodev.agendamento.repositories.TipoServicoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class TipoServicoService {
@@ -13,5 +15,9 @@ public class TipoServicoService {
 
     public TipoServico criarTipoServico(TipoServico tipoServico){
         return repository.save(tipoServico);
+    }
+
+    public List<TipoServico> obterTipoServico(){
+        return repository.findAll();
     }
 }

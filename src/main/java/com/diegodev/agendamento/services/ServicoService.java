@@ -38,7 +38,6 @@ public class ServicoService {
         if(servico.getNomeServico() != null) servicoEncontrado.setNomeServico(servico.getNomeServico());
         if(servico.getTempo() != null) servicoEncontrado.setTempo(servico.getTempo());
         if(servico.getPrecoBase() != null) servicoEncontrado.setPrecoBase(servico.getPrecoBase());
-        if(servico.getStatusServico() != null) servicoEncontrado.setStatusServico(servico.getStatusServico());
     }
 
     public void deletar(Long id){
