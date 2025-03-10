@@ -1,6 +1,5 @@
 package com.diegodev.agendamento.models;
 
-import com.diegodev.agendamento.models.enums.StatusServico;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -36,7 +35,8 @@ public class Servico {
 
 //    private String imgUrl;
 
-    private StatusServico statusServico;
+    @OneToMany(mappedBy = "servico", cascade = CascadeType.ALL)
+    private List<TipoServico> tipoServico = new ArrayList<>();
 
     @CreatedDate
     private LocalDateTime dataCadastro;
