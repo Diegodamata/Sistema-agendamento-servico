@@ -7,16 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "tipo_servicos")
+@Table(name = "roles")
 @Data
-public class TipoServico {
+public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String tipoServico;
+    private String role;
 
-    @ManyToMany(mappedBy = "tipoServicos")
-    private final List<Servico> servicos = new ArrayList<>();
+    @ManyToMany(mappedBy = "roles")
+    private final List<Usuario> usuarios = new ArrayList<>();
 }

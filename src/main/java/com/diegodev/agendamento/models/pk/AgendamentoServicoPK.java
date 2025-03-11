@@ -5,14 +5,11 @@ import com.diegodev.agendamento.models.Servico;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.*;
+import lombok.Data;
 
 @Embeddable
-@Getter
-@Setter
-@NoArgsConstructor
-@EqualsAndHashCode
-public class AgendamentoItemPK {
+@Data
+public class AgendamentoServicoPK {
 
     @ManyToOne
     @JoinColumn(name = "id_agendamento")

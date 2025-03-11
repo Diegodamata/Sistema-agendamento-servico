@@ -1,23 +1,20 @@
 package com.diegodev.agendamento.models;
 
-import com.diegodev.agendamento.models.pk.AgendamentoItemPK;
+import com.diegodev.agendamento.models.pk.AgendamentoServicoPK;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Table(name = "tb_agendamento_servico")
-@NoArgsConstructor
-@EqualsAndHashCode(of = "id")
-public class AgendamentoItem {
+public class AgendamentoServico {
 
     @EmbeddedId
-    private AgendamentoItemPK id = new AgendamentoItemPK();
+    private AgendamentoServicoPK id = new AgendamentoServicoPK();
 
     @Getter
     @Setter
@@ -26,7 +23,7 @@ public class AgendamentoItem {
     @Setter
     private Double precoBase;
 
-    public AgendamentoItem(Agendamento agendamento, Servico servico, Integer quantidade, Double precoBase) {
+    public AgendamentoServico(Agendamento agendamento, Servico servico, Integer quantidade, Double precoBase) {
         id.setAgendamento(agendamento);
         id.setServico(servico);
         this.quantidade = quantidade;

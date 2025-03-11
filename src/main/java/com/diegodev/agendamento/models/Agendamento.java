@@ -3,7 +3,9 @@ package com.diegodev.agendamento.models;
 import com.diegodev.agendamento.models.enums.StatusAgendamento;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -11,12 +13,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "agendamentos")
-@Getter
-@Setter
+@Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = "id")
 public class Agendamento {
 
     @Id
@@ -25,7 +24,7 @@ public class Agendamento {
 
     private LocalDateTime dataAgendamento;
 
-    @Column(name = "status")
+    @Column(name = "statusAgendamento")
     @Enumerated(EnumType.STRING)
     private StatusAgendamento statusAgendamento;
 
@@ -34,21 +33,17 @@ public class Agendamento {
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
 
-//    @Builder.Default
 //    @ManyToMany
 //    @JoinTable(name = "profissional_agendamento", joinColumns = @JoinColumn(name = "agendamento_id"),
 //    inverseJoinColumns = @JoinColumn(name = "profissional_id"))
 //    private List<ProfissionalInfo> profissionais = new ArrayList<>();
 
-    @Builder.Default
     @OneToMany(mappedBy = "id.agendamento")
-    private List<AgendamentoItem> items = new ArrayList<>();
+    private final List<AgendamentoServico> servicos = new ArrayList<>();
 
-//    @Builder.Default
 //    @OneToMany(mappedBy = "agendamento")
 //    private List<Avaliacao> avaliacoes = new ArrayList<>();
-//
-//    @Builder.Default
+
 //    @JsonIgnore
 //    @OneToMany(mappedBy = "agendamento")
 //    private List<Historico> historicos = new ArrayList<>();

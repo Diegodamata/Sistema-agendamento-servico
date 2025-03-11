@@ -1,7 +1,7 @@
 package com.diegodev.agendamento.controllers;
 
-import com.diegodev.agendamento.controllers.dto.telefone.TelefoneRequestDTO;
-import com.diegodev.agendamento.controllers.dto.telefone.TelefoneResponseDTO;
+import com.diegodev.agendamento.controllers.dto.telefone.requests.TelefoneRequestDTO;
+import com.diegodev.agendamento.controllers.dto.telefone.responses.TelefoneResponseDTO;
 import com.diegodev.agendamento.controllers.mappers.telefone.TelefoneMapper;
 import com.diegodev.agendamento.models.Telefone;
 import com.diegodev.agendamento.services.TelefoneService;

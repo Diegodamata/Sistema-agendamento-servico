@@ -12,7 +12,4 @@ public interface UsuarioMapper {
     Usuario dtoRequestParaUsuario(UsuarioRequestDTO dto);
 
     UsuarioResponseDTO usuarioParaResponseDTO(Usuario usuario);
-
-    UsuarioDetalheDTO usuarioParaDetalheDTO(Usuario usuario);
-
 }

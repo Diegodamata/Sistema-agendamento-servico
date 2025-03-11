@@ -1,20 +1,30 @@
 package com.diegodev.agendamento.services;
 
 import com.diegodev.agendamento.models.Servico;
+import com.diegodev.agendamento.models.TipoServico;
 import com.diegodev.agendamento.repositories.ServicoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class ServicoService {
 
     private final ServicoRepository repository;
+    private final TipoServicoService tipoServicoService;
 
-    public Servico criarServico(Servico servico){
+    public Servico criarServico(final Servico servico, final List<String> nomeTipoServico){
+        List<TipoServico> listTipoServicos = new ArrayList<>();
+        for (String nome : nomeTipoServico){
+            TipoServico tipo = tipoServicoService.findByTipoServico(nome);
+            if (tipo != null){
+                listTipoServicos.add(tipo);
+            }
+        }
+        servico.getTipoServicos().addAll(listTipoServicos);
         return repository.save(servico);
     }
 
@@ -30,8 +40,7 @@ public class ServicoService {
     public Servico atualizar(Long id, Servico servico){
         var servicoEncontrado = obterPorId(id);
         atualizarServico(servicoEncontrado, servico);
-
-        return servicoEncontrado;
+        return repository.save(servicoEncontrado);
     }
 
     private void atualizarServico(Servico servicoEncontrado, Servico servico) {

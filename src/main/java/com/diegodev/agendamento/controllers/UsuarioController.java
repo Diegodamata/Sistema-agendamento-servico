@@ -2,10 +2,8 @@ package com.diegodev.agendamento.controllers;
 
 import com.diegodev.agendamento.controllers.dto.CadastroUsuarioDTO;
 import com.diegodev.agendamento.controllers.dto.usuario.requests.UsuarioRequestDTO;
-import com.diegodev.agendamento.controllers.dto.usuario.responses.UsuarioDetalheDTO;
 import com.diegodev.agendamento.controllers.dto.usuario.responses.UsuarioResponseDTO;
 import com.diegodev.agendamento.controllers.mappers.endereco.EnderecoMapper;
-import com.diegodev.agendamento.controllers.mappers.papel.PapelMapper;
 import com.diegodev.agendamento.controllers.mappers.prossifional.ProfissionalMapper;
 import com.diegodev.agendamento.controllers.mappers.telefone.TelefoneMapper;
 import com.diegodev.agendamento.controllers.mappers.usuario.UsuarioMapper;
@@ -25,7 +23,6 @@ public class UsuarioController implements GenericController { //interface generi
 
     private final UsuarioService usuarioService;
     private final UsuarioMapper usuarioMapper;
-    private final PapelMapper papelMapper;
     private final ProfissionalMapper proMapper;
     private final TelefoneMapper teleMapper;
     private final EnderecoMapper endMapper;
@@ -35,7 +32,7 @@ public class UsuarioController implements GenericController { //interface generi
 
         Usuario usuarioCriado = usuarioService.criarUsuario(
                 usuarioMapper.dtoRequestParaUsuario(dto.usuario()),
-                papelMapper.listDtoParaListPapel(dto.papeis()),
+                dto.roles(),
                 proMapper.dtoParaProfissional(dto.profissional()),
                 teleMapper.listDtoParaListTelefone(dto.telefones()),
                 endMapper.listDtoParaListEndereco(dto.enderecos()));

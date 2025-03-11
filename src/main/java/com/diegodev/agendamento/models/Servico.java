@@ -2,7 +2,7 @@ package com.diegodev.agendamento.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -14,12 +14,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "servicos")
-@Getter
-@Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode(of = "id")
+@Data
 @EntityListeners(AuditingEntityListener.class)
 public class Servico {
 
@@ -35,8 +30,10 @@ public class Servico {
 
 //    private String imgUrl;
 
-    @OneToMany(mappedBy = "servico", cascade = CascadeType.ALL)
-    private List<TipoServico> tipoServico = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(name = "servico_tipo_servico", joinColumns = @JoinColumn(name = "servico_id"),
+    inverseJoinColumns = @JoinColumn(name = "tipoServico_id"))
+    private final List<TipoServico> tipoServicos = new ArrayList<>();
 
     @CreatedDate
     private LocalDateTime dataCadastro;
@@ -44,10 +41,9 @@ public class Servico {
     @LastModifiedDate
     private LocalDateTime dataAtualizacao;
 
-    @Builder.Default
     @JsonIgnore
     @OneToMany(mappedBy = "id.servico")
-    private List<AgendamentoItem> items = new ArrayList<>();
+    private final List<AgendamentoServico> agendamentos = new ArrayList<>();
 
 //    @Builder.Default
 //    @JsonIgnore

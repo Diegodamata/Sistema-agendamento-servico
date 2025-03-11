@@ -1,6 +1,8 @@
 package com.diegodev.agendamento.controllers;
 
-import com.diegodev.agendamento.controllers.dto.servico.ServicoDTO;
+import com.diegodev.agendamento.controllers.dto.CadastroServicoDTO;
+import com.diegodev.agendamento.controllers.dto.servico.requests.ServicoRequestDTO;
+import com.diegodev.agendamento.controllers.dto.servico.responses.ServicoResponseDTO;
 import com.diegodev.agendamento.controllers.mappers.servico.ServicoMapper;
 import com.diegodev.agendamento.models.Servico;
 import com.diegodev.agendamento.services.ServicoService;
@@ -22,9 +24,11 @@ public class ServicoController implements GenericController{
     private final ServicoMapper servicoMapper;
 
     @PostMapping
-    public ResponseEntity<Void> criarServico(@RequestBody ServicoDTO dto){
+    public ResponseEntity<Void> criarServico(@RequestBody CadastroServicoDTO dto){
 
-        Servico servicoCriado = servicoService.criarServico(servicoMapper.dtoParaServico(dto));
+        Servico servicoCriado = servicoService.criarServico(
+                servicoMapper.dtoParaServico(dto.servico()),
+                dto.tipoServico());
 
         URI uri = gerarHeaderLocation(servicoCriado.getId());
 
@@ -32,22 +36,22 @@ public class ServicoController implements GenericController{
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ServicoDTO> obterPorId(@PathVariable("id") Long id){
-        return ResponseEntity.ok(servicoMapper.servicoParaDTO(servicoService.obterPorId(id)));
+    public ResponseEntity<ServicoResponseDTO> obterPorId(@PathVariable("id") Long id){
+        return ResponseEntity.ok(servicoMapper.servicoParaResponseDTO(servicoService.obterPorId(id)));
     }
 
     @GetMapping
-    public ResponseEntity<List<ServicoDTO>> obterServico(){
+    public ResponseEntity<List<ServicoResponseDTO>> obterServico(){
         List<Servico> servicos = servicoService.obterServico();
         return ResponseEntity.ok(servicos.stream()
-                        .map(servicoMapper::servicoParaDTO)
+                        .map(servicoMapper::servicoParaResponseDTO)
                         .collect(Collectors.toList()));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ServicoDTO> atualizar(@PathVariable("id") Long id, @RequestBody ServicoDTO dto){
+    public ResponseEntity<ServicoResponseDTO> atualizar(@PathVariable("id") Long id, @RequestBody ServicoRequestDTO dto){
         return ResponseEntity.ok(servicoMapper
-                .servicoParaDTO(servicoService
+                .servicoParaResponseDTO(servicoService
                         .atualizar(id, servicoMapper.dtoParaServico(dto))));
     }
 

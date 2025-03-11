@@ -1,37 +1,41 @@
 package com.diegodev.agendamento.services;
 
-import com.diegodev.agendamento.controllers.dto.usuario.responses.UsuarioResponseDTO;
 import com.diegodev.agendamento.models.*;
 import com.diegodev.agendamento.models.enums.StatusUsuario;
 import com.diegodev.agendamento.repositories.UsuarioRepository;
 import com.diegodev.agendamento.repositories.specs.UsuarioSpecs;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class UsuarioService {
 
     private final UsuarioRepository repository;
+    private final RoleService roleService;
 
     public Usuario criarUsuario(
             final Usuario usuario,
-            final List<Papel> papeis,
+            final List<String> roles,
             final ProfissionalInfo profissional,
             final List<Telefone> telefones,
             final List<Endereco> enderecos){
 
-        usuario.setStatus(StatusUsuario.ATIVO);
-        repository.save(usuario);
-
-        if(papeis != null){
-            usuario.getPapeis().addAll(papeis);
+        List<Role> listRole = new ArrayList<>();
+        for (String role : roles){
+            if(role != null){
+                Role byRole = roleService.findByRole(role);
+                listRole.add(byRole);
+            }
         }
+        usuario.getRoles().addAll(listRole);
 
         if(profissional != null){
             profissional.setUsuario(usuario);
@@ -47,7 +51,7 @@ public class UsuarioService {
             enderecos.forEach(end -> end.setUsuario(usuario));
             usuario.getEnderecos().addAll(enderecos);
         }
-
+        usuario.setStatus(StatusUsuario.ATIVO);
         return repository.save(usuario);
     }
 
@@ -88,25 +92,4 @@ public class UsuarioService {
     public void deletar(Long id){
         repository.delete(obterPorId(id));
     }
-
-
-//    public Optional<Usuario> obterPorId(Long id){
-//        return repository.findById(id);
-//    }
-//
-//
-//    public Page<Usuario> obterUsuarios(String nome, Pageable pageable) {
-//        if(nome != null && !nome.isEmpty()){
-//            return filtrarUsuarioPorNome(nome, pageable);
-//        }
-//        return repository.findAll(pageable);
-//    }
-//
-//    public Page<Usuario> filtrarUsuarioPorNome(String nome, Pageable pageable){
-//        return repository.findByNomeContainingIgnoreCase(nome, pageable);
-//    }
-//
-//    public void alterarDadosUsuario(Usuario usuario) {
-//        repository.save(usuario);
-//    }
 }

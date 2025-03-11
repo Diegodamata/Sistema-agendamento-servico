@@ -49,6 +49,14 @@
 			<artifactId>mapstruct</artifactId>
 			<version>${org.mapstruct.version}</version>
 		</dependency>
+
+		<!-- biblioteca para persistencia de dados, ajudara na conversão de lista para array na persistencia -->
+		<dependency>
+			<groupId>io.hypersistence</groupId>
+			<artifactId>hypersistence-utils-hibernate-63</artifactId>
+			<version>3.9.2</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
