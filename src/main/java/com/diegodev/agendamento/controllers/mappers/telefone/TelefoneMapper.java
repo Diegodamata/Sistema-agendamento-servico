@@ -10,9 +10,11 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface TelefoneMapper {
 
-    List<Telefone> listDtoParaListTelefone(List<TelefoneRequestDTO> dto);
+    List<Telefone> listDeDToParaListTelefone(List<TelefoneRequestDTO> dtos);
 
     Telefone dtoParaTelefone(TelefoneRequestDTO dto);
+
+    List<TelefoneResponseDTO> listDeTelefoneParaListTelefoneResponse(List<Telefone> telefones);
 
     TelefoneResponseDTO telefoneParaDTO(Telefone telefone);
 }

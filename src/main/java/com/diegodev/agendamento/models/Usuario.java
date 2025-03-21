@@ -2,18 +2,26 @@ package com.diegodev.agendamento.models;
 
 import com.diegodev.agendamento.models.enums.StatusUsuario;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "usuarios")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@EqualsAndHashCode(of = "id")
 @EntityListeners(AuditingEntityListener.class)
 public class Usuario {
 
@@ -30,18 +38,24 @@ public class Usuario {
     @Enumerated(EnumType.STRING)
     private StatusUsuario status;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "usuario_role", joinColumns = @JoinColumn(name = "usuario_id"),
-    inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private final List<Role> roles = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(name = "usuario_role", joinColumns = @JoinColumn(name = "usuario_id")
+    ,inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
-    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private ProfissionalInfo profissionalInfo;
+    @CreatedDate
+    private LocalDate dataCadastro;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    @LastModifiedDate
+    private LocalDate dataAtualizacao;
+
+    @OneToOne(mappedBy = "usuario")
+    private Profissional profissional;
+
+    @OneToMany(mappedBy = "usuario")
     private final List<Telefone> telefones = new ArrayList<>();
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "usuario")
     private final List<Endereco> enderecos = new ArrayList<>();
 //
 //    @Builder.Default
@@ -60,10 +74,5 @@ public class Usuario {
 //    private List<Historico> historicos = new ArrayList<>();
 
 //    Dados para auditoria
-    @CreatedDate
-    private LocalDate dataCadastro;
-
-    @LastModifiedDate
-    private LocalDate dataAtualizacao;
 }
 

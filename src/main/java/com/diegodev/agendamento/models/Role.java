@@ -1,22 +1,28 @@
 package com.diegodev.agendamento.models;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "roles")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String role;
+    private String tipo;
 
     @ManyToMany(mappedBy = "roles")
-    private final List<Usuario> usuarios = new ArrayList<>();
+    private Set<Usuario> usuario = new HashSet<>();
 }

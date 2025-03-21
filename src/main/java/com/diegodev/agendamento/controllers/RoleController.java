@@ -20,32 +20,33 @@ public class RoleController implements GenericController{
     private final RoleService roleService;
     private final RoleMapper roleMapper;
 
-
     @PostMapping
-    public ResponseEntity<Void> criarRole(@RequestBody RoleRequestDTO dto){
+    public ResponseEntity<Void> salvar(@RequestBody RoleRequestDTO requestDTO){
 
-        Role roleCriada = roleService.criarRole(roleMapper.dtoRequestParaRole(dto));
+        Role roleSalva = roleService.salvar(roleMapper.dtoParaRole(requestDTO));
 
-        URI uri = gerarHeaderLocation(roleCriada.getId());
+        URI uri = gerarHeaderLocation(roleSalva.getId());
 
         return ResponseEntity.created(uri).build();
     }
 
     @GetMapping
     public ResponseEntity<List<RoleResponseDTO>> obterRoles(){
-       return ResponseEntity.ok(roleMapper.listRoleParaListRoleResponseDTO(roleService.obterRoles()));
+        return ResponseEntity
+                .ok(roleMapper.listRoleParaListResponse(roleService.obterRoles()));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<RoleResponseDTO> obterPorId(@PathVariable("id") Long id){
-        return ResponseEntity.ok(roleMapper.roleParaRoleResponse(roleService.obterPorId(id)));
+        return ResponseEntity
+                .ok(roleMapper.roleParaResponse(roleService.obterPorId(id)));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<RoleResponseDTO> atualizar(@PathVariable("id") Long id, @RequestBody RoleRequestDTO dto){
-       return ResponseEntity.ok(
-               roleMapper.roleParaRoleResponse(
-                    roleService.atualizar(id ,roleMapper.dtoRequestParaRole(dto))));
+        Role roleAtualizada = roleService.atualizar(id, roleMapper.dtoParaRole(dto));
+
+        return ResponseEntity.ok(roleMapper.roleParaResponse(roleAtualizada));
     }
 
     @DeleteMapping("/{id}")

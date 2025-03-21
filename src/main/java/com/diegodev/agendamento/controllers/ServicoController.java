@@ -1,6 +1,5 @@
 package com.diegodev.agendamento.controllers;
 
-import com.diegodev.agendamento.controllers.dto.CadastroServicoDTO;
 import com.diegodev.agendamento.controllers.dto.servico.requests.ServicoRequestDTO;
 import com.diegodev.agendamento.controllers.dto.servico.responses.ServicoResponseDTO;
 import com.diegodev.agendamento.controllers.mappers.servico.ServicoMapper;
@@ -24,11 +23,10 @@ public class ServicoController implements GenericController{
     private final ServicoMapper servicoMapper;
 
     @PostMapping
-    public ResponseEntity<Void> criarServico(@RequestBody CadastroServicoDTO dto){
+    public ResponseEntity<Void> criarServico(@RequestBody ServicoRequestDTO dto){
 
         Servico servicoCriado = servicoService.criarServico(
-                servicoMapper.dtoParaServico(dto.servico()),
-                dto.tipoServico());
+                servicoMapper.dtoParaServico(dto), dto.tipoServico());
 
         URI uri = gerarHeaderLocation(servicoCriado.getId());
 

@@ -11,38 +11,41 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/enderecos")
 @RequiredArgsConstructor
-public class EnderecoController implements GenericController {
+public class EnderecoController implements GenericController{
 
     private final EnderecoService enderecoService;
     private final EnderecoMapper enderecoMapper;
 
     @PostMapping
-    public ResponseEntity<EnderecoResponseDTO> criarEndereco(@RequestBody EnderecoRequestDTO dto){
-        Endereco enderecoCriado = enderecoService.criarEndereco(enderecoMapper.dtoParaEndereco(dto));
+    public ResponseEntity<Void> salvar(@RequestBody EnderecoRequestDTO requestDTO){
+        Endereco enderecoSalvo = enderecoService.salvar(enderecoMapper.dtoParaEndereco(requestDTO));
 
-        URI uri = gerarHeaderLocation(enderecoCriado.getId());
+        URI uri = gerarHeaderLocation(enderecoSalvo.getId());
 
-        return ResponseEntity.created(uri).body(enderecoMapper.enderecoParaDTO(enderecoCriado));
+        return ResponseEntity.created(uri).build();
     }
 
     @GetMapping
     public ResponseEntity<List<EnderecoResponseDTO>> obterEndereco(){
-        List<Endereco> enderecos = enderecoService.obterEndereco();
-        return ResponseEntity.ok(enderecos.stream()
-                .map(enderecoMapper::enderecoParaDTO)
-                .collect(Collectors.toList()));
+        return ResponseEntity.ok(
+                enderecoMapper.listEnderecoParaListEnderecoResponse(enderecoService.obterEndereco()));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<EnderecoResponseDTO> obterPorId(@PathVariable("id") Long id){
+       return ResponseEntity.ok(
+               enderecoMapper.enderecoParaDTO(enderecoService.obterPorId(id)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EnderecoResponseDTO> alterar(@PathVariable("id") Long id, @RequestBody EnderecoRequestDTO dto){
+    public ResponseEntity<EnderecoResponseDTO> atualizar(@PathVariable("id") Long id, @RequestBody EnderecoRequestDTO requestDTO){
 
-        Endereco enderecoAlterar = enderecoService.alterar(id, enderecoMapper.dtoParaEndereco(dto));
-        return ResponseEntity.ok(enderecoMapper.enderecoParaDTO(enderecoAlterar));
+        Endereco enderecoAtualizado = enderecoService.atualizar(id, enderecoMapper.dtoParaEndereco(requestDTO));
+        return ResponseEntity.ok(enderecoMapper.enderecoParaDTO(enderecoAtualizado));
     }
 
     @DeleteMapping("/{id}")
@@ -50,6 +53,4 @@ public class EnderecoController implements GenericController {
         enderecoService.deletar(id);
         return ResponseEntity.noContent().build();
     }
-
-
 }

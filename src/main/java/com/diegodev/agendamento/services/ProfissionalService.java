@@ -1,6 +1,6 @@
 package com.diegodev.agendamento.services;
 
-import com.diegodev.agendamento.models.ProfissionalInfo;
+import com.diegodev.agendamento.models.Profissional;
 import com.diegodev.agendamento.repositories.ProfissionalRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ public class ProfissionalService {
 
     private final ProfissionalRepository repository;
 
-    public ProfissionalInfo criarProfissional(ProfissionalInfo profissional){
-        return repository.save(profissional);
+    public void salvar(Profissional profissional){
+        repository.save(profissional);
     }
 }

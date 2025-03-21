@@ -1,6 +1,5 @@
 package com.diegodev.agendamento.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
@@ -41,14 +40,13 @@ public class Servico {
     @LastModifiedDate
     private LocalDateTime dataAtualizacao;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "id.servico")
-    private final List<AgendamentoServico> agendamentos = new ArrayList<>();
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "id.servico")
+//    private final List<AgendamentoServico> agendamentos = new ArrayList<>();
 
-//    @Builder.Default
 //    @JsonIgnore
 //    @OneToMany(mappedBy = "servico")
-//    private List<Historico> historicos = new ArrayList<>();
+//    private final List<Historico> historicos = new ArrayList<>();
 }
 
 

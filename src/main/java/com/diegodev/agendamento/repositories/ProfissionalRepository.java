@@ -1,7 +1,7 @@
 package com.diegodev.agendamento.repositories;
 
-import com.diegodev.agendamento.models.ProfissionalInfo;
+import com.diegodev.agendamento.models.Profissional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ProfissionalRepository extends JpaRepository<ProfissionalInfo, Long> {
+public interface ProfissionalRepository extends JpaRepository<Profissional, Long> {
 }

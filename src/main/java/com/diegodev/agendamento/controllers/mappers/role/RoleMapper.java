@@ -10,10 +10,11 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface RoleMapper {
 
-    Role dtoRequestParaRole(RoleRequestDTO dto);
+    Role dtoParaRole(RoleRequestDTO dto);
 
-    RoleResponseDTO roleParaRoleResponse(Role role);
+    List<RoleResponseDTO> listRoleParaListResponse(List<Role> roles);
 
-    List<RoleResponseDTO> listRoleParaListRoleResponseDTO(List<Role> role);
+    RoleResponseDTO roleParaResponse(Role role);
 
+    List<Role> listRequestParaListRole(List<RoleRequestDTO> dtos);
 }

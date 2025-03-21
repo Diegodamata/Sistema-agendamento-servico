@@ -1,25 +1,28 @@
 package com.diegodev.agendamento.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "profissionais")
-@Data
-public class ProfissionalInfo {
+@Getter
+@Setter
+@NoArgsConstructor
+@EqualsAndHashCode(of = "id")
+public class Profissional {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonIgnore
+    private String nomeEmpresa;
+
     @OneToOne
     @JoinColumn(name = "usuario_id")
-    @MapsId //tanto o profissional quanto o usuario possuai o mesmo id
     private Usuario usuario;
-
-    private String nomeEmpresa;
 
 //    private String cargo;
 //
@@ -27,12 +30,10 @@ public class ProfissionalInfo {
 //
 //    private String cnpj;
 
-//    @Builder.Default
 //    @JsonIgnore
 //    @ManyToMany(mappedBy = "profissionais")
 //    private List<Agendamento> agendamentos = new ArrayList<>();
-//
-//    @Builder.Default
+
 //    @JsonIgnore
 //    @OneToMany(mappedBy = "profissional")
 //    private List<Historico> historicos = new ArrayList<>();

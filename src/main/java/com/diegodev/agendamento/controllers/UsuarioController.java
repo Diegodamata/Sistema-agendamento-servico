@@ -1,10 +1,10 @@
 package com.diegodev.agendamento.controllers;
 
-import com.diegodev.agendamento.controllers.dto.CadastroUsuarioDTO;
 import com.diegodev.agendamento.controllers.dto.usuario.requests.UsuarioRequestDTO;
 import com.diegodev.agendamento.controllers.dto.usuario.responses.UsuarioResponseDTO;
 import com.diegodev.agendamento.controllers.mappers.endereco.EnderecoMapper;
 import com.diegodev.agendamento.controllers.mappers.prossifional.ProfissionalMapper;
+import com.diegodev.agendamento.controllers.mappers.role.RoleMapper;
 import com.diegodev.agendamento.controllers.mappers.telefone.TelefoneMapper;
 import com.diegodev.agendamento.controllers.mappers.usuario.UsuarioMapper;
 import com.diegodev.agendamento.models.Usuario;
@@ -23,23 +23,24 @@ public class UsuarioController implements GenericController { //interface generi
 
     private final UsuarioService usuarioService;
     private final UsuarioMapper usuarioMapper;
+    private final RoleMapper roleMapper;
     private final ProfissionalMapper proMapper;
     private final TelefoneMapper teleMapper;
     private final EnderecoMapper endMapper;
 
     @PostMapping
-    public ResponseEntity<UsuarioResponseDTO> criarUsuario(@RequestBody CadastroUsuarioDTO dto){
+    public ResponseEntity<Void> salvar(@RequestBody UsuarioRequestDTO dto){
 
-        Usuario usuarioCriado = usuarioService.criarUsuario(
-                usuarioMapper.dtoRequestParaUsuario(dto.usuario()),
-                dto.roles(),
+        Usuario usuarioCridado = usuarioService.salvar(
+                dto.toUsuario(),
+                roleMapper.listRequestParaListRole(dto.roles()),
                 proMapper.dtoParaProfissional(dto.profissional()),
-                teleMapper.listDtoParaListTelefone(dto.telefones()),
-                endMapper.listDtoParaListEndereco(dto.enderecos()));
+                teleMapper.listDeDToParaListTelefone(dto.telefones()),
+                endMapper.listDeDTOParaListDeEndereco(dto.enderecos()));
 
-        URI uri = gerarHeaderLocation(usuarioCriado.getId());
+        URI uri = gerarHeaderLocation(usuarioCridado.getId());
 
-        return ResponseEntity.created(uri).body(usuarioMapper.usuarioParaResponseDTO(usuarioCriado));
+        return ResponseEntity.created(uri).build();
     }
 
     @GetMapping
@@ -61,9 +62,7 @@ public class UsuarioController implements GenericController { //interface generi
     public ResponseEntity<UsuarioResponseDTO> alterar (@PathVariable("id") Long id, @RequestBody UsuarioRequestDTO dto){
         return ResponseEntity.ok(
                 usuarioMapper.usuarioParaResponseDTO(
-                        usuarioService.atualizar(
-                                id, usuarioMapper.dtoRequestParaUsuario(dto)
-                        )));
+                        usuarioService.atualizar(id, usuarioMapper.dtoRequestParaUsuario(dto))));
     }
 
     @DeleteMapping("/{id}")

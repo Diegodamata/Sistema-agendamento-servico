@@ -2,11 +2,17 @@ package com.diegodev.agendamento.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "enderecos")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Endereco {
 
     @Id
@@ -17,9 +23,9 @@ public class Endereco {
 
     private Integer numero;
 
-//    private String complemento;
-
     private String cidade;
+
+//    private String complemento;
 
 //    private String bairro;
 
@@ -29,6 +35,6 @@ public class Endereco {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "id_usuario")
+    @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 }

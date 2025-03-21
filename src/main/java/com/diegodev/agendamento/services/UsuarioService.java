@@ -11,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,39 +19,50 @@ public class UsuarioService {
 
     private final UsuarioRepository repository;
     private final RoleService roleService;
+    private final ProfissionalService profissionalService;
+    private final TelefoneService telefoneService;
+    private final EnderecoService enderecoService;
 
-    public Usuario criarUsuario(
+    public Usuario salvar(
             final Usuario usuario,
-            final List<String> roles,
-            final ProfissionalInfo profissional,
+            final List<Role> roles,
+            final Profissional profissional,
             final List<Telefone> telefones,
             final List<Endereco> enderecos){
 
-        List<Role> listRole = new ArrayList<>();
-        for (String role : roles){
-            if(role != null){
-                Role byRole = roleService.findByRole(role);
-                listRole.add(byRole);
-            }
+        usuario.setStatus(StatusUsuario.ATIVO);
+        repository.save(usuario);
+
+        if(roles != null){
+           for(Role role : roles){
+               Role roleEncontrada = roleService.finByTipo(role.getTipo());
+               usuario.getRoles().add(roleEncontrada);
+               roleEncontrada.getUsuario().add(usuario);
+           }
         }
-        usuario.getRoles().addAll(listRole);
 
         if(profissional != null){
-            profissional.setUsuario(usuario);
-            usuario.setProfissionalInfo(profissional);
+            usuario.setProfissional(profissional);
+            profissionalService.salvar(profissional);
         }
 
         if(telefones != null){
-            telefones.forEach(tel -> tel.setUsuario(usuario));
             usuario.getTelefones().addAll(telefones);
+            for(Telefone telefone : telefones){
+                telefone.setUsuario(usuario);
+                telefoneService.salvar(telefone);
+            }
         }
 
         if(enderecos != null){
-            enderecos.forEach(end -> end.setUsuario(usuario));
             usuario.getEnderecos().addAll(enderecos);
+            for(Endereco endereco : enderecos){
+                endereco.setUsuario(usuario);
+                enderecoService.salvar(endereco);
+            }
         }
-        usuario.setStatus(StatusUsuario.ATIVO);
-        return repository.save(usuario);
+
+        return usuario;
     }
 
     public Page<Usuario> obterUsuario(String nome, int pagina, int tamanho){

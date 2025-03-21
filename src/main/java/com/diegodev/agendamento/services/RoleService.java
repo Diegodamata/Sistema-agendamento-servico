@@ -11,36 +11,38 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RoleService {
 
-    private final RoleRepository roleRepository;
+    private final RoleRepository repository;
 
-    public Role criarRole(Role role){
-        return roleRepository.save(role);
+    public Role salvar(Role role){
+        return repository.save(role);
     }
 
-    public Role findByRole(String role){
-        return roleRepository.findByRole(role);
+    public Role finByTipo(String tipo){
+        return repository.findByTipo(tipo);
     }
 
     public List<Role> obterRoles(){
-        return roleRepository.findAll();
+        return repository.findAll();
     }
 
     public Role obterPorId(Long id){
-        return roleRepository.findById(id).orElseThrow(() -> new RuntimeException("Role não encontrado"));
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Role não existe"));
     }
 
     public Role atualizar(Long id, Role role){
         Role roleEncontrado = obterPorId(id);
+
         atualizarRole(roleEncontrado, role);
-        return roleRepository.save(roleEncontrado);
+
+        return repository.save(roleEncontrado);
     }
 
-    private void atualizarRole(Role roleEncontrado, Role role) {
-        if(role.getRole() != null) roleEncontrado.setRole(role.getRole());
+    private void atualizarRole(Role roleEncontrado, Role role){
+        if(role.getTipo() != null) roleEncontrado.setTipo(role.getTipo());
     }
 
     public void deletar(Long id){
-        Role roleEncontrado = obterPorId(id);
-        roleRepository.delete(roleEncontrado);
+        repository.delete(obterPorId(id));
     }
 }

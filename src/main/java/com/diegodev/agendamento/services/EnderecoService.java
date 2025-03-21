@@ -1,7 +1,9 @@
 package com.diegodev.agendamento.services;
 
 import com.diegodev.agendamento.models.Endereco;
+import com.diegodev.agendamento.models.Usuario;
 import com.diegodev.agendamento.repositories.EnderecoRepository;
+import com.diegodev.agendamento.repositories.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,31 +14,44 @@ import java.util.List;
 public class EnderecoService {
 
     private final EnderecoRepository repository;
+    private final UsuarioRepository usuarioRepository;
 
-    public Endereco criarEndereco(Endereco endereco){
+    public Endereco salvar(Endereco endereco){
+        Usuario usuario = usuarioRepository.findById(1L).get();
+        endereco.setUsuario(usuario);
         return repository.save(endereco);
     }
 
-    public List<Endereco> obterEndereco(){
-        return repository.findAll();
+    public List<Endereco> obterEndereco() {
+        Usuario usuario = usuarioRepository.findById(1L).get();
+        return usuario.getEnderecos();
     }
 
-    public Endereco alterar(Long id, Endereco endereco){
-        Endereco enderecoEncontrado = repository.findById(id).orElse(null);
+    public Endereco obterPorId(Long id){
+        Usuario usuario = usuarioRepository.findById(1L).get();
 
-        alterarEndereco(enderecoEncontrado, endereco);
+        List<Endereco> enderecos = usuario.getEnderecos();
+
+        return enderecos
+                .stream()
+                .filter(endereco -> endereco.getId().equals(id))
+                .findFirst()
+                .get();
+    }
+
+    public Endereco atualizar(Long id, Endereco endereco){
+        var enderecoEncontrado = obterPorId(id);
+
+        atualizarEndereco(enderecoEncontrado, endereco);
 
         return repository.save(enderecoEncontrado);
     }
 
-    private void alterarEndereco(Endereco enderecoEncontrado, Endereco endereco) {
-        if(endereco.getCep() != null) enderecoEncontrado.setCep(endereco.getCep());
-        if(endereco.getNumero() != null) enderecoEncontrado.setNumero(endereco.getNumero());
+    private void atualizarEndereco(Endereco enderecoEncontrado, Endereco endereco) {
         if(endereco.getCidade() != null) enderecoEncontrado.setCidade(endereco.getCidade());
     }
 
     public void deletar(Long id){
-        Endereco enderecoEncontrado = repository.findById(id).orElse(null);
-        repository.delete(enderecoEncontrado);
+        repository.delete(obterPorId(id));
     }
 }

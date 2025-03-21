@@ -1,7 +1,9 @@
 package com.diegodev.agendamento.services;
 
 import com.diegodev.agendamento.models.Telefone;
+import com.diegodev.agendamento.models.Usuario;
 import com.diegodev.agendamento.repositories.TelefoneRepository;
+import com.diegodev.agendamento.repositories.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,31 +13,47 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TelefoneService {
 
-    private final TelefoneRepository repository;
+    private final TelefoneRepository telefoneRepository;
+    private final UsuarioRepository usuarioRepository;
 
-    public Telefone criarTelefone(Telefone telefone) {
-        return repository.save(telefone);
+
+    public Telefone salvar(Telefone telefone){
+        Usuario usuario = usuarioRepository.findById(1L).get();
+        telefone.setUsuario(usuario);
+        return telefoneRepository.save(telefone);
     }
 
     public List<Telefone> obterTelefone(){
-        return repository.findAll();
+        Usuario usuario = usuarioRepository.findById(1L).get();
+
+        return usuario.getTelefones();
     }
 
-    public Telefone alterar(Long id, Telefone telefone){
-       var telefoneEndontrado = repository.findById(id)
-               .orElseThrow(() -> new RuntimeException("Telefone não encontrado"));
+    public Telefone obterPorId(Long id){
+        Usuario usuario = usuarioRepository.findById(1L).get();
 
-        alterarTelefone(telefoneEndontrado, telefone);
-        return repository.save(telefoneEndontrado);
+        List<Telefone> telefones = usuario.getTelefones();
+
+        return telefones
+                .stream()
+                .filter(telefone -> telefone.getId().equals(id))
+                .findFirst()
+                .get();
     }
 
-    private void alterarTelefone(Telefone telefoneEndontrado, Telefone telefone) {
-        telefoneEndontrado.setNumero(telefone.getNumero());
+    public Telefone atualizar(Long id, Telefone telefone){
+        var telefoneEncontrado = obterPorId(id);
+
+        atualizarTelefone(telefoneEncontrado, telefone);
+
+        return telefoneRepository.save(telefoneEncontrado);
+    }
+
+    private void atualizarTelefone(Telefone telefoneEncontrado, Telefone telefone) {
+        if(telefone.getNumero() != null) telefoneEncontrado.setNumero(telefone.getNumero());
     }
 
     public void deletar(Long id){
-        var telefoneEndontrado = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Telefone não encontrado"));
-        repository.delete(telefoneEndontrado);
+        telefoneRepository.delete(obterPorId(id));
     }
 }

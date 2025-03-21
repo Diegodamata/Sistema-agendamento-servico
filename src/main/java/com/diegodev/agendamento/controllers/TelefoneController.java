@@ -11,37 +11,40 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/telefones")
 @RequiredArgsConstructor
-public class TelefoneController implements GenericController {
+public class TelefoneController implements GenericController{
 
     private final TelefoneService telefoneService;
     private final TelefoneMapper telefoneMapper;
 
     @PostMapping
-    public ResponseEntity<TelefoneResponseDTO> criarTelefone(@RequestBody TelefoneRequestDTO dto){
+    public ResponseEntity<Void> salvar(@RequestBody TelefoneRequestDTO requestDTO){
 
-        Telefone telefoneCriado = telefoneService.criarTelefone(telefoneMapper.dtoParaTelefone(dto));
+        Telefone telefoneSalvo = telefoneService.salvar(telefoneMapper.dtoParaTelefone(requestDTO));
 
-        URI uri = gerarHeaderLocation(telefoneCriado.getId());
+        URI uri = gerarHeaderLocation(telefoneSalvo.getId());
 
-        return ResponseEntity.created(uri).body(telefoneMapper.telefoneParaDTO(telefoneCriado));
+        return ResponseEntity.created(uri).build();
     }
 
     @GetMapping
-    public ResponseEntity<List<TelefoneResponseDTO>> obterTelefone(){
-        List<Telefone> telefones = telefoneService.obterTelefone();
-        return ResponseEntity.ok(telefones.stream()
-                .map(telefoneMapper::telefoneParaDTO)
-                .collect(Collectors.toList()));
+    public ResponseEntity<List<TelefoneResponseDTO>> obterTelefones(){
+        return ResponseEntity.ok(telefoneMapper
+                .listDeTelefoneParaListTelefoneResponse(telefoneService.obterTelefone()));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<TelefoneResponseDTO> obterPorId(@PathVariable("id") Long id){
+        return ResponseEntity.ok(telefoneMapper.telefoneParaDTO(telefoneService.obterPorId(id)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TelefoneResponseDTO> alterar(@PathVariable("id") Long id, @RequestBody TelefoneRequestDTO dto){
-        return ResponseEntity.ok( telefoneMapper.telefoneParaDTO(telefoneService.alterar(id, telefoneMapper.dtoParaTelefone(dto))));
+    public ResponseEntity<TelefoneResponseDTO> atualizar(@PathVariable("id") Long id, @RequestBody TelefoneRequestDTO requestDTO){
+        Telefone telefoneAtualizado = telefoneService.atualizar(id, telefoneMapper.dtoParaTelefone(requestDTO));
+        return ResponseEntity.ok(telefoneMapper.telefoneParaDTO(telefoneAtualizado));
     }
 
     @DeleteMapping("/{id}")
@@ -49,5 +52,4 @@ public class TelefoneController implements GenericController {
         telefoneService.deletar(id);
         return ResponseEntity.noContent().build();
     }
-
 }
