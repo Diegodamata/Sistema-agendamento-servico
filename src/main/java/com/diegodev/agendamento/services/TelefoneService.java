@@ -14,46 +14,42 @@ import java.util.List;
 public class TelefoneService {
 
     private final TelefoneRepository telefoneRepository;
-    private final UsuarioRepository usuarioRepository;
-
 
     public Telefone salvar(Telefone telefone){
-        Usuario usuario = usuarioRepository.findById(1L).get();
-        telefone.setUsuario(usuario);
         return telefoneRepository.save(telefone);
     }
 
-    public List<Telefone> obterTelefone(){
-        Usuario usuario = usuarioRepository.findById(1L).get();
-
-        return usuario.getTelefones();
-    }
-
-    public Telefone obterPorId(Long id){
-        Usuario usuario = usuarioRepository.findById(1L).get();
-
-        List<Telefone> telefones = usuario.getTelefones();
-
-        return telefones
-                .stream()
-                .filter(telefone -> telefone.getId().equals(id))
-                .findFirst()
-                .get();
-    }
-
-    public Telefone atualizar(Long id, Telefone telefone){
-        var telefoneEncontrado = obterPorId(id);
-
-        atualizarTelefone(telefoneEncontrado, telefone);
-
-        return telefoneRepository.save(telefoneEncontrado);
-    }
-
-    private void atualizarTelefone(Telefone telefoneEncontrado, Telefone telefone) {
-        if(telefone.getNumero() != null) telefoneEncontrado.setNumero(telefone.getNumero());
-    }
-
-    public void deletar(Long id){
-        telefoneRepository.delete(obterPorId(id));
-    }
+//    public List<Telefone> obterTelefone(){
+//        Usuario usuario = usuarioRepository.findById(1L).get();
+//
+//        return usuario.getTelefones();
+//    }
+//
+//    public Telefone obterPorId(Long id){
+//        Usuario usuario = usuarioRepository.findById(1L).get();
+//
+//        List<Telefone> telefones = usuario.getTelefones();
+//
+//        return telefones
+//                .stream()
+//                .filter(telefone -> telefone.getId().equals(id))
+//                .findFirst()
+//                .get();
+//    }
+//
+//    public Telefone atualizar(Long id, Telefone telefone){
+//        var telefoneEncontrado = obterPorId(id);
+//
+//        atualizarTelefone(telefoneEncontrado, telefone);
+//
+//        return telefoneRepository.save(telefoneEncontrado);
+//    }
+//
+//    private void atualizarTelefone(Telefone telefoneEncontrado, Telefone telefone) {
+//        if(telefone.getNumero() != null) telefoneEncontrado.setNumero(telefone.getNumero());
+//    }
+//
+//    public void deletar(Long id){
+//        telefoneRepository.delete(obterPorId(id));
+//    }
 }

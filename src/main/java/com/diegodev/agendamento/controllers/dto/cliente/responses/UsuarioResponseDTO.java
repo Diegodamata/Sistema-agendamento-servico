@@ -1,4 +1,4 @@
-package com.diegodev.agendamento.controllers.dto.usuario.responses;
+package com.diegodev.agendamento.controllers.dto.cliente.responses;
 
 import com.diegodev.agendamento.models.enums.StatusUsuario;
 

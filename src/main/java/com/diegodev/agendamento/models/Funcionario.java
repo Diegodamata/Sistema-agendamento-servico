@@ -1,6 +1,5 @@
 package com.diegodev.agendamento.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -8,25 +7,26 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "telefones")
+@Table(name = "funcionarios")
 @Getter
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Telefone {
+public class Funcionario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String numero;
+    private String cargo;
 
-    @JsonIgnore
-    @ManyToOne
+    private String especialidade;
+
+    @OneToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    public Telefone(String numero){
-        this.numero = numero;
-    }
+    @OneToOne
+    @JoinColumn(name = "dono_id")
+    private Dono dono;
 }

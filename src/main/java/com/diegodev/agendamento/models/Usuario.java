@@ -1,6 +1,7 @@
 package com.diegodev.agendamento.models;
 
 import com.diegodev.agendamento.models.enums.StatusUsuario;
+import com.diegodev.agendamento.models.enums.TipoUsuario;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -12,9 +13,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "usuarios")
@@ -35,44 +34,19 @@ public class Usuario {
 
     private String senha;
 
+    @OneToMany(mappedBy = "usuario")
+    private List<Telefone> telefones = new ArrayList<>();
+
     @Enumerated(EnumType.STRING)
     private StatusUsuario status;
 
-    @ManyToMany
-    @JoinTable(name = "usuario_role", joinColumns = @JoinColumn(name = "usuario_id")
-    ,inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    @Enumerated(EnumType.STRING)
+    private TipoUsuario tipoUsuario;
 
     @CreatedDate
     private LocalDate dataCadastro;
 
     @LastModifiedDate
     private LocalDate dataAtualizacao;
-
-    @OneToOne(mappedBy = "usuario")
-    private Profissional profissional;
-
-    @OneToMany(mappedBy = "usuario")
-    private final List<Telefone> telefones = new ArrayList<>();
-
-    @OneToMany(mappedBy = "usuario")
-    private final List<Endereco> enderecos = new ArrayList<>();
-//
-//    @Builder.Default
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "usuario")
-//    private List<Agendamento> agendamentos = new ArrayList<>();
-//
-//    @Builder.Default
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "usuario")
-//    private List<Avaliacao> avaliacoes = new ArrayList<>();
-//
-//    @Builder.Default
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "usuario")
-//    private List<Historico> historicos = new ArrayList<>();
-
-//    Dados para auditoria
 }
 

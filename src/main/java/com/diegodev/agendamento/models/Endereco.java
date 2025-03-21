@@ -35,6 +35,12 @@ public class Endereco {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
+
+    public Endereco(String cep, Integer numero, String cidade){
+        this.cep = cep;
+        this.numero = numero;
+        this.cidade = cidade;
+    }
 }
