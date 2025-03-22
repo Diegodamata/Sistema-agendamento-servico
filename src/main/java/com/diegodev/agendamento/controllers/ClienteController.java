@@ -20,9 +20,9 @@ public class ClienteController implements GenericController { //interface generi
     private final ClienteService clienteService;
 
     @PostMapping
-    public ResponseEntity<Void> salvar(@RequestBody ClienteRequestDTO dto){
+    public ResponseEntity<Void> salvarCliente(@RequestBody ClienteRequestDTO dto){
 
-        Cliente clienteSalvo = clienteService.salvar(dto.toUsuario(), dto.toTelefones(), dto.toEndereco());
+        Cliente clienteSalvo = clienteService.salvarCliente(dto.toUsuario(), dto.toTelefones(), dto.toEndereco());
 
         URI uri = gerarHeaderLocation(clienteSalvo.getId());
 

@@ -6,21 +6,27 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
-@Table(name = "donos")
+@Table(name = "convites")
 @Getter
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Dono {
+public class Convite {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String cnpj;
+    private String token;
 
-    @OneToOne
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
+    @ManyToOne
+    @JoinColumn(name = "dono_id")
+    private Dono dono;
+
+    private LocalDateTime dataExpiracao;
+
+    private boolean usado = false;
 }

@@ -4,6 +4,8 @@ import com.diegodev.agendamento.models.Cliente;
 import com.diegodev.agendamento.models.Endereco;
 import com.diegodev.agendamento.models.Telefone;
 import com.diegodev.agendamento.models.Usuario;
+import com.diegodev.agendamento.models.enums.StatusUsuario;
+import com.diegodev.agendamento.models.enums.TipoUsuario;
 import com.diegodev.agendamento.repositories.ClienteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,8 +21,9 @@ public class ClienteService {
     private final TelefoneService telefoneService;
     private final EnderecoService enderecoService;
 
-    public Cliente salvar(Usuario usuario, List<Telefone> telefones, List<Endereco> enderecos){
-
+    public Cliente salvarCliente(Usuario usuario, List<Telefone> telefones, List<Endereco> enderecos){
+        usuario.setStatus(StatusUsuario.ATIVO);
+        usuario.setTipoUsuario(TipoUsuario.CLIENTE);
         Usuario usuarioSalvo = usuarioService.salvar(usuario);
 
         if(telefones != null){
