@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -17,8 +18,8 @@ public class ConviteService {
     private final ConviteRepository repository;
     private final DonoRepository donoRepository;
 
-    public String gerarConvite(Long id){
-        Dono dono = donoRepository.findById(id)
+    public String gerarConvite(Long dono_id){
+        Dono dono = donoRepository.findById(dono_id)
                 .orElseThrow(() -> new RuntimeException("Dono não encontrado"));
 
         String token = UUID.randomUUID().toString();
@@ -33,5 +34,22 @@ public class ConviteService {
         repository.save(convite);
 
         return "http://localhost:8080/funcionarios?token=" + token;
+    }
+
+    public List<Convite> obterConvites(Long dono_id) {
+        Dono dono = donoRepository.findById(dono_id)
+                .orElseThrow(() -> new RuntimeException("Dono não encontrado"));
+
+        return dono.getConvites();
+    }
+
+    public void deletar(Long dono_id, Long convite_id) {
+        Dono dono = donoRepository.findById(dono_id)
+                .orElseThrow(() -> new RuntimeException("Dono não encontrado"));
+
+        repository.delete(dono.getConvites().
+                stream()
+                .filter(convite -> convite.getId().equals(convite_id))
+                .findFirst().get());
     }
 }

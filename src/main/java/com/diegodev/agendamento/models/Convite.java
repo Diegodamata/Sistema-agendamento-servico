@@ -1,5 +1,6 @@
 package com.diegodev.agendamento.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -22,6 +23,7 @@ public class Convite {
 
     private String token;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "dono_id")
     private Dono dono;
